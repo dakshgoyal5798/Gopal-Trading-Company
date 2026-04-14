@@ -1,0 +1,771 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gopal Trading Company – Premium Grocery Distribution</title>
+
+  <!-- Google Fonts: Montserrat -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- GSAP -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
+  <!-- External Stylesheet -->
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  
+  <!-- ════════════════════════════════════════════════════════════
+       GLASSMORPHISM NAVBAR
+  ════════════════════════════════════════════════════════════ -->
+  <nav id="navbar">
+    <div class="nav-inner">
+      <div class="nav-logo" onclick="showPage('home')">
+        <div>Gopal<span>Trading</span></div>
+        <small>Since 1998</small>
+      </div>
+      <div class="nav-links" id="navLinks">
+        <!-- Injected via JS -->
+      </div>
+      <div class="nav-hamburger" onclick="toggleMobileMenu()">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+    <div class="mobile-menu" id="mobileMenu">
+      <!-- Injected via JS -->
+    </div>
+  </nav>
+
+  <!-- ════════════════════════════════════════════════════════════
+       HOME PAGE
+  ════════════════════════════════════════════════════════════ -->
+  <div id="page-home" class="page active">
+    
+    <!-- Hero Section -->
+    <header class="hero">
+      <div class="hero-bg"></div>
+      <div class="hero-gradient"></div>
+      
+      <div class="container hero-inner">
+        <div class="hero-content">
+          <div class="hero-badge gsap-fade">
+            <i data-lucide="award"></i> PREMIUM GROCERY DISTRIBUTION
+          </div>
+          <h1 class="gsap-hero-title">Your Trusted Partner in <span class="text-gold">Bulk Groceries</span>.</h1>
+          <p class="gsap-fade delay-1">Delivering 5,000+ premium quality products to retailers, restaurants, and homes across Delhi NCR since 1998.</p>
+          
+          <div class="hero-btns gsap-fade delay-2">
+            <button class="btn btn-gold" onclick="authGuard('order')">
+              <i data-lucide="shopping-cart"></i> Order Now
+            </button>
+            <button class="btn btn-outline-white" onclick="showPage('signup')">
+              <i data-lucide="user-plus"></i> Create Account
+            </button>
+          </div>
+          <p class="gsap-fade delay-2" style="margin-top:20px; font-size:0.95rem; color:rgba(255,255,255,0.9);">
+            Already have an account? <a href="#" onclick="showPage('login')" style="color:var(--gold); font-weight:600;">Sign In Instead &rarr;</a>
+          </p>
+        </div>
+        
+        <div class="hero-visual gsap-slide-left">
+          <h3>Our Reach in Numbers</h3>
+          <div class="stat-grid">
+            <div class="stat-card">
+              <div class="num" id="stat-items">0</div>
+              <div class="lbl">Products</div>
+            </div>
+            <div class="stat-card">
+              <div class="num" id="stat-customers">0</div>
+              <div class="lbl">Happy Clients</div>
+            </div>
+            <div class="stat-card">
+              <div class="num" id="stat-years">0</div>
+              <div class="lbl">Years Legacy</div>
+            </div>
+            <div class="stat-card">
+              <div class="num" id="stat-rating">0</div>
+              <div class="lbl">Star Rating</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Services Section -->
+    <section class="section" id="services" style="background:var(--white)">
+      <div class="container">
+        <div class="section-header gsap-up">
+          <div class="tag">What We Do</div>
+          <h2>End-to-End Grocery Solutions</h2>
+          <p class="text-gray">From sourcing the finest grains to delivering them directly to your doorstep.</p>
+        </div>
+        
+        <div class="services-grid">
+          <div class="service-card gsap-stagger">
+            <div class="service-icon"><span style="font-size: 2.2rem;">🏪</span></div>
+            <h3>Retail & Wholesale</h3>
+            <p>Purchase groceries at competitive prices, whether for home use or your store. We maintain quality stocks year-round.</p>
+          </div>
+          <div class="service-card gsap-stagger">
+            <div class="service-icon"><span style="font-size: 2.2rem;">📦</span></div>
+            <h3>Bulk Distribution</h3>
+            <p>Supplying restaurants, canteens, hostels, and retail stores with bulk orders. Flexible pricing for large volumes.</p>
+          </div>
+          <div class="service-card gsap-stagger">
+            <div class="service-icon"><span style="font-size: 2.2rem;">📋</span></div>
+            <h3>Preorder System</h3>
+            <p>Upload your grocery list and we confirm availability, pricing, and delivery — all in one go. No more last-minute runs.</p>
+          </div>
+          <div class="service-card gsap-stagger">
+            <div class="service-icon"><span style="font-size: 2.2rem;">🚚</span></div>
+            <h3>Home Delivery</h3>
+            <p>Select your preferred time slot and we deliver fresh groceries to your doorstep on your schedule.</p>
+          </div>
+          <div class="service-card gsap-stagger">
+            <div class="service-icon"><span style="font-size: 2.2rem;">🌾</span></div>
+            <h3>Fresh Produce</h3>
+            <p>Directly sourced grains, pulses, spices, oils, and daily essentials from trusted suppliers across India.</p>
+          </div>
+          <div class="service-card gsap-stagger">
+            <div class="service-icon"><span style="font-size: 2.2rem;">💰</span></div>
+            <h3>Festival Packs</h3>
+            <p>Special curated packs during festivals like Diwali, Pongal, and Navratri — packed with value and freshness.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- How it Works -->
+    <section class="section how-section" style="background:var(--gray-50)">
+      <div class="container">
+        <div class="section-header gsap-up">
+          <div class="tag">Simple Process</div>
+          <h2>How It Works</h2>
+        </div>
+        
+        <div class="steps-grid">
+          <div class="steps-line"></div>
+          <div class="step-card gsap-stagger">
+            <div class="step-icon">1</div>
+            <h4>Create Account</h4>
+            <p>Sign up with your name, phone, and email in under a minute.</p>
+          </div>
+          <div class="step-card gsap-stagger">
+            <div class="step-icon">2</div>
+            <h4>Upload List</h4>
+            <p>Upload a PDF/image or type your grocery list directly.</p>
+          </div>
+          <div class="step-card gsap-stagger">
+            <div class="step-icon">3</div>
+            <h4>Select Slot</h4>
+            <p>Choose your preferred delivery date and time slot.</p>
+          </div>
+          <div class="step-card gsap-stagger">
+            <div class="step-icon">4</div>
+            <h4>We Deliver</h4>
+            <p>We confirm, pack, and deliver your order right to your door.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="section" style="background:var(--white)">
+      <div class="container">
+        <div class="section-header gsap-up">
+          <div class="tag">Testimonials</div>
+          <h2>What Our Clients Say</h2>
+        </div>
+        
+        <div class="testimonials-grid">
+          <div class="testi-card gsap-stagger">
+            <div class="stars">
+              <i data-lucide="star" fill="currentColor"></i><i data-lucide="star" fill="currentColor"></i><i data-lucide="star" fill="currentColor"></i><i data-lucide="star" fill="currentColor"></i><i data-lucide="star" fill="currentColor"></i>
+            </div>
+            <p class="testi-text">"Gopal Trading has completely transformed how I source groceries for my restaurant. Their bulk pricing and next-day delivery are unmatched."</p>
+            <div class="testi-author">
+              <div class="testi-avatar">R</div>
+              <div class="testi-info">
+                <h5>Rahul Sharma</h5>
+                <span>Restaurant Owner</span>
+              </div>
+            </div>
+          </div>
+          <div class="testi-card gsap-stagger">
+            <div class="stars">
+              <i data-lucide="star" fill="currentColor"></i><i data-lucide="star" fill="currentColor"></i><i data-lucide="star" fill="currentColor"></i><i data-lucide="star" fill="currentColor"></i><i data-lucide="star" fill="currentColor"></i>
+            </div>
+            <p class="testi-text">"I love that I can just upload a photo of my monthly grocery list on WhatsApp and they deliver everything perfectly packed the next morning!"</p>
+            <div class="testi-author">
+              <div class="testi-avatar">P</div>
+              <div class="testi-info">
+                <h5>Priya Patel</h5>
+                <span>Home Maker</span>
+              </div>
+            </div>
+          </div>
+          <div class="testi-card gsap-stagger">
+            <div class="stars">
+              <i data-lucide="star" fill="currentColor"></i><i data-lucide="star" fill="currentColor"></i><i data-lucide="star" fill="currentColor"></i><i data-lucide="star" fill="currentColor"></i><i data-lucide="star" fill="currentColor"></i>
+            </div>
+            <p class="testi-text">"Been dealing with them for 15 years. The quality of pulses and rice is always consistently premium. A very trustworthy partner."</p>
+            <div class="testi-author">
+              <div class="testi-avatar">V</div>
+              <div class="testi-info">
+                <h5>Vikram Singh</h5>
+                <span>Retailer</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Call To Action -->
+    <section class="section-sm">
+      <div class="container">
+        <div class="cta-banner gsap-up">
+          <div class="cta-inner">
+            <h2>Ready to Elevate Your Grocery Sourcing?</h2>
+            <p>Join thousands of businesses and homes that trust Gopal Trading Co.</p>
+            <div class="cta-btns">
+              <button class="btn btn-gold" onclick="showPage('signup')">Create Free Account</button>
+              <button class="btn btn-outline-white" onclick="authGuard('order')">Upload Requirements</button>
+            </div>
+            <p style="margin-top:24px; font-size:0.95rem; color:rgba(255,255,255,0.9);">
+              Already doing business with us? <a href="#" onclick="showPage('login')" style="color:var(--white); font-weight:700; text-decoration:underline;">Sign In here &rarr;</a>
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="section" id="contact" style="background:var(--white)">
+      <div class="container">
+        <div class="section-header gsap-up">
+          <div class="tag">Get In Touch</div>
+          <h2>Contact Us</h2>
+        </div>
+        
+        <div class="contact-grid">
+          <div class="contact-info gsap-up">
+            <h3 style="font-size: 1.5rem; margin-bottom: 8px;">We're Here to Help</h3>
+            <p class="text-gray" style="margin-bottom: 32px;">Reach out to us for bulk orders, queries, or any assistance.</p>
+            
+            <div class="contact-item">
+              <div class="icon-wrap"><span style="font-size:1.25rem;">📍</span></div>
+              <div>
+                <h4 style="font-size:1rem; margin-bottom:4px;">Address</h4>
+                <p class="text-gray" style="font-size:0.95rem;">Paprawat Road, Najafgarh, New Delhi</p>
+              </div>
+            </div>
+            
+            <div class="contact-item">
+              <div class="icon-wrap"><span style="font-size:1.25rem;">📞</span></div>
+              <div>
+                <h4 style="font-size:1rem; margin-bottom:4px;">Phone</h4>
+                <p class="text-gray" style="font-size:0.95rem;">+91 98765 43210 | +91 44 2234 5678</p>
+              </div>
+            </div>
+            
+            <div class="contact-item">
+              <div class="icon-wrap"><span style="font-size:1.25rem;">📧</span></div>
+              <div>
+                <h4 style="font-size:1rem; margin-bottom:4px;">Email</h4>
+                <p class="text-gray" style="font-size:0.95rem;">orders@gopaltrading.com</p>
+              </div>
+            </div>
+            
+            <div class="contact-item">
+              <div class="icon-wrap"><span style="font-size:1.25rem;">🕒</span></div>
+              <div>
+                <h4 style="font-size:1rem; margin-bottom:4px;">Working Hours</h4>
+                <p class="text-gray" style="font-size:0.95rem;">Mon - Sat: 8:00 AM - 8:00 PM<br>Sunday: 9:00 AM - 2:00 PM</p>
+              </div>
+            </div>
+          </div>
+          
+          <div class="contact-form-wrap gsap-up" style="animation-delay: 0.2s;">
+            <div class="contact-card">
+              <h3 style="font-size: 1.25rem; margin-bottom: 24px;">Send us a Message</h3>
+              <div class="form-group">
+                <label class="form-label">Your Name</label>
+                <input type="text" class="form-control" id="contactName" placeholder="Ramesh Kumar" />
+              </div>
+              <div class="form-group">
+                <label class="form-label">Phone / Email</label>
+                <input type="text" class="form-control" id="contactContact" placeholder="+91 98765 43210" />
+              </div>
+              <div class="form-group">
+                <label class="form-label">Message</label>
+                <textarea class="form-control" id="contactMsg" rows="4" placeholder="Tell us what you need..."></textarea>
+              </div>
+              <button class="btn btn-green btn-block" id="contactBtn" onclick="sendContact()">
+                <i data-lucide="send" style="width:18px;height:18px;"></i> Send Message
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+      <div class="container">
+        <div class="footer-grid">
+          <div class="footer-brand">
+            <h3 class="nav-logo">Gopal<span>Trading</span></h3>
+            <p>Your neighborhood grocery partner delivering fresh, bulk, and daily groceries right to your doorstep since 1998.</p>
+            <div class="social-links">
+              <a href="#" class="social-btn"><i data-lucide="facebook"></i></a>
+              <a href="#" class="social-btn"><i data-lucide="instagram"></i></a>
+              <a href="#" class="social-btn"><i data-lucide="twitter"></i></a>
+            </div>
+          </div>
+          <div class="footer-col">
+            <h4>Quick Links</h4>
+            <ul>
+              <li><a href="#" onclick="showPage('home')">Home</a></li>
+              <li><a href="#services">Services</a></li>
+              <li><a href="#" onclick="showPage('login')">Login</a></li>
+              <li><a href="#" onclick="showPage('signup')">Register</a></li>
+            </ul>
+          </div>
+          <div class="footer-col">
+            <h4>Legal</h4>
+            <ul>
+              <li><a href="#">Privacy Policy</a></li>
+              <li><a href="#">Terms of Service</a></li>
+              <li><a href="#">Refund Policy</a></li>
+            </ul>
+          </div>
+          <div class="footer-col">
+            <h4>Contact Us</h4>
+            <ul class="footer-contact">
+              <li>
+                <i data-lucide="map-pin"></i> 
+                <span>Paprawat Road, Najafgarh<br>New Delhi, 110043</span>
+              </li>
+              <li>
+                <i data-lucide="phone"></i> 
+                <span>+91 98765 43210</span>
+              </li>
+              <li>
+                <i data-lucide="mail"></i> 
+                <span>orders@gopaltrading.com</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <p>&copy; 2024 Gopal Trading Company. All rights reserved.</p>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <!-- ════════════════════════════════════════════════════════════
+       LOGIN PAGE
+  ════════════════════════════════════════════════════════════ -->
+  <div id="page-login" class="page">
+    <div class="auth-page">
+      <div class="auth-bg">
+        <div class="auth-bg-content">
+          <h1 style="color:white;margin-bottom:24px;">Welcome Back!</h1>
+          <p style="font-size:1.1rem;opacity:0.9;max-width:400px;margin-bottom:40px;">Log in to access your dashboard, track deliveries, and manage your bulk orders effortlessly.</p>
+          <ul style="list-style:none;display:flex;flex-direction:column;gap:16px;">
+            <li style="display:flex;align-items:center;gap:12px;"><i data-lucide="check-circle"></i> Real-time tracking</li>
+            <li style="display:flex;align-items:center;gap:12px;"><i data-lucide="check-circle"></i> Fast re-ordering</li>
+            <li style="display:flex;align-items:center;gap:12px;"><i data-lucide="check-circle"></i> Exclusive deals</li>
+          </ul>
+        </div>
+      </div>
+      <div class="auth-form-wrap">
+        <div class="auth-form gsap-up">
+          <h2 style="margin-bottom:8px;">Sign In</h2>
+          <p class="text-gray" style="margin-bottom:32px;">Enter your credentials to continue</p>
+          
+          <div class="form-group">
+            <label class="form-label">Email Address</label>
+            <input type="email" class="form-control" id="loginEmail" placeholder="you@example.com" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Password</label>
+            <input type="password" class="form-control" id="loginPassword" placeholder="••••••••" onkeydown="if(event.key==='Enter')doLogin()" />
+          </div>
+          
+          <div style="display:flex;justify-content:flex-end;margin-top:-8px;margin-bottom:16px;">
+            <a href="#" onclick="showPage('forgot')" style="font-size:0.85rem;color:var(--green-700);font-weight:600;">Forgot Password?</a>
+          </div>
+          
+          <button class="btn btn-green btn-block" onclick="doLogin()" id="loginBtn" style="margin-bottom:24px;">
+            Sign In <i data-lucide="arrow-right"></i>
+          </button>
+          
+          <p class="text-center text-gray">Don't have an account? <a href="#" onclick="showPage('signup')" class="text-green" style="font-weight:600;color:var(--green-700)">Sign Up</a></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════════════════════════
+       SIGNUP PAGE
+  ════════════════════════════════════════════════════════════ -->
+  <div id="page-signup" class="page">
+    <div class="auth-page">
+      <div class="auth-bg" style="background-image:url('https://images.unsplash.com/photo-1543168256-418811576931?q=80&w=2070&auto=format&fit=crop');">
+        <div class="auth-bg-content">
+          <h1 style="color:white;margin-bottom:24px;">Join Our Family</h1>
+          <p style="font-size:1.1rem;opacity:0.9;max-width:400px;">Create a free account to experience seamless grocery procurement.</p>
+        </div>
+      </div>
+      <div class="auth-form-wrap">
+        <div class="auth-form gsap-up">
+          <h2 style="margin-bottom:8px;">Create Account</h2>
+          <p class="text-gray" style="margin-bottom:32px;">Fill in your details to get started</p>
+          
+          <div class="form-group">
+            <label class="form-label">Full Name</label>
+            <input type="text" class="form-control" id="regName" placeholder="Ramesh Kumar" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Phone Number</label>
+            <input type="text" class="form-control" id="regPhone" placeholder="+91 98765 43210" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Email Address</label>
+            <input type="email" class="form-control" id="regEmail" placeholder="ramesh@example.com" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Password</label>
+            <input type="password" class="form-control" id="regPassword" placeholder="••••••••" />
+          </div>
+          
+          <button class="btn btn-gold btn-block" onclick="doSignup()" id="signupBtn" style="margin-bottom:24px;">
+            Create Account <i data-lucide="user-plus"></i>
+          </button>
+          
+          <p class="text-center text-gray">Already have an account? <a href="#" onclick="showPage('login')" class="text-green" style="font-weight:600;color:var(--green-700)">Sign In</a></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════════════════════════
+       FORGOT PASSWORD PAGE
+  ════════════════════════════════════════════════════════════ -->
+  <div id="page-forgot" class="page">
+    <div class="auth-page">
+      <div class="auth-bg" style="background-image:url('https://images.unsplash.com/photo-1543168256-418811576931?q=80&w=2070&auto=format&fit=crop');">
+        <div class="auth-bg-content">
+          <h1 style="color:white;margin-bottom:24px;">Recover Password</h1>
+          <p style="font-size:1.1rem;opacity:0.9;max-width:400px;">Don't worry, even the best of us forget things sometimes. We'll help you get back in.</p>
+        </div>
+      </div>
+      <div class="auth-form-wrap">
+        <div class="auth-form gsap-up">
+          <h2 style="margin-bottom:8px;">Forgot Password</h2>
+          <p class="text-gray" style="margin-bottom:32px;">Enter your email to receive a reset link</p>
+          
+          <div class="form-group">
+            <label class="form-label">Email Address</label>
+            <input type="email" class="form-control" id="forgotEmail" placeholder="you@example.com" />
+          </div>
+          
+          <button class="btn btn-green btn-block" onclick="doForgotPassword()" id="forgotBtn" style="margin-bottom:24px;">
+            Send Reset Link <i data-lucide="mail"></i>
+          </button>
+          
+          <p class="text-center text-gray"><a href="#" onclick="showPage('login')" class="text-green" style="font-weight:600;color:var(--green-700)">&larr; Back to Login</a></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════════════════════════
+       RESET PASSWORD PAGE
+  ════════════════════════════════════════════════════════════ -->
+  <div id="page-reset" class="page">
+    <div class="auth-page">
+      <div class="auth-bg" style="background-image:url('https://images.unsplash.com/photo-1543168256-418811576931?q=80&w=2070&auto=format&fit=crop');">
+        <div class="auth-bg-content">
+          <h1 style="color:white;margin-bottom:24px;">New Password</h1>
+          <p style="font-size:1.1rem;opacity:0.9;max-width:400px;">Set a strong password to keep your account secure.</p>
+        </div>
+      </div>
+      <div class="auth-form-wrap">
+        <div class="auth-form gsap-up">
+          <h2 style="margin-bottom:8px;">Reset Password</h2>
+          <p class="text-gray" style="margin-bottom:32px;">Enter your new password below</p>
+          
+          <div class="form-group">
+            <label class="form-label">New Password</label>
+            <input type="password" class="form-control" id="resetPassword" placeholder="••••••••" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Confirm New Password</label>
+            <input type="password" class="form-control" id="resetConfirmPassword" placeholder="••••••••" />
+          </div>
+          
+          <button class="btn btn-green btn-block" onclick="doResetPassword()" id="resetBtn" style="margin-bottom:24px;">
+            Update Password <i data-lucide="check"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════════════════════════
+       CUSTOMER DASHBOARD
+  ════════════════════════════════════════════════════════════ -->
+  <div id="page-dashboard" class="page">
+
+    <!-- Mobile sidebar overlay -->
+    <div class="mob-sidebar-overlay" id="mobSidebarOverlay" onclick="toggleMobSidebar()"></div>
+    <div class="mob-sidebar" id="mobSidebar">
+      <div class="sidebar-user">
+        <div class="sidebar-avatar" id="sidebarAvatar">U</div>
+        <h4 id="sidebarName">User</h4>
+        <small id="sidebarEmail" style="color:rgba(255,255,255,0.7);font-size:0.8rem;word-break:break-all;"></small>
+      </div>
+      <ul class="sidebar-nav">
+        <li><a href="#" id="mob-nav-overview"  onclick="switchDash('overview')" ><i data-lucide="layout-dashboard"></i> Overview</a></li>
+        <li><a href="#" id="mob-nav-neworder"  onclick="switchDash('neworder')" ><i data-lucide="plus-circle"></i> Place Order</a></li>
+        <li><a href="#" id="mob-nav-myorders"  onclick="switchDash('myorders')" ><i data-lucide="shopping-bag"></i> My Orders</a></li>
+        <li><a href="#" id="mob-nav-profile"   onclick="switchDash('profile')"  ><i data-lucide="user"></i> Profile</a></li>
+        <li style="margin-top:16px;border-top:1px solid rgba(255,255,255,0.1);padding-top:12px;">
+          <a href="#" onclick="logout()" style="color:#fca5a5;"><i data-lucide="log-out"></i> Log Out</a>
+        </li>
+      </ul>
+    </div>
+
+    <div class="dashboard-layout">
+
+      <!-- Desktop Sidebar -->
+      <aside class="sidebar">
+        <div class="sidebar-user">
+          <div class="sidebar-avatar" id="sidebarAvatar">U</div>
+          <h4 id="sidebarName">User Name</h4>
+          <small id="sidebarEmail" style="color:rgba(255,255,255,0.7);font-size:0.8rem;word-break:break-all;"></small>
+        </div>
+        <ul class="sidebar-nav">
+          <li><a href="#" id="nav-overview"  class="active" onclick="switchDash('overview')"><i data-lucide="layout-dashboard"></i> Overview</a></li>
+          <li><a href="#" id="nav-neworder"  onclick="switchDash('neworder')"><i data-lucide="plus-circle"></i> Place Order</a></li>
+          <li><a href="#" id="nav-myorders"  onclick="switchDash('myorders')"><i data-lucide="shopping-bag"></i> My Orders</a></li>
+          <li><a href="#" id="nav-profile"   onclick="switchDash('profile')"><i data-lucide="user"></i> Profile</a></li>
+          <li style="margin-top:24px;border-top:1px solid rgba(255,255,255,0.1);padding-top:12px;">
+            <a href="#" onclick="logout()" style="color:#fca5a5;"><i data-lucide="log-out"></i> Log Out</a>
+          </li>
+        </ul>
+      </aside>
+
+      <!-- Main Content -->
+      <main class="dash-main">
+
+        <!-- Mobile top bar -->
+        <div class="dash-topbar">
+          <button class="mob-menu-btn" onclick="toggleMobSidebar()"><i data-lucide="menu"></i></button>
+          <h2>Customer Dashboard</h2>
+        </div>
+
+        <!-- ── OVERVIEW ─────────────────────────────────── -->
+        <div id="ds-overview" class="dash-section active">
+          <h2 class="ds-title">Welcome back, <span id="dashWelcomeName">there</span>! 👋</h2>
+
+          <!-- Stat cards -->
+          <div class="dash-stat-grid">
+            <div class="dash-stat-card">
+              <div class="dash-stat-icon" style="background:#d1fae5;color:#047857;"><i data-lucide="package"></i></div>
+              <div>
+                <div class="dash-stat-num" id="uStatTotal">–</div>
+                <div class="dash-stat-lbl">Total Orders</div>
+              </div>
+            </div>
+            <div class="dash-stat-card">
+              <div class="dash-stat-icon" style="background:#fef3c7;color:#b45309;"><i data-lucide="clock"></i></div>
+              <div>
+                <div class="dash-stat-num" id="uStatPending">–</div>
+                <div class="dash-stat-lbl">Pending</div>
+              </div>
+            </div>
+            <div class="dash-stat-card">
+              <div class="dash-stat-icon" style="background:#dbeafe;color:#1e40af;"><i data-lucide="check-circle"></i></div>
+              <div>
+                <div class="dash-stat-num" id="uStatDelivered">–</div>
+                <div class="dash-stat-lbl">Delivered</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Quick actions -->
+          <div style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:32px;">
+            <button class="btn btn-green" onclick="switchDash('neworder')"><i data-lucide="plus-circle"></i> New Order</button>
+            <button class="btn btn-outline" onclick="switchDash('myorders')"><i data-lucide="list"></i> View All Orders</button>
+          </div>
+
+          <!-- Recent Orders -->
+          <div class="dash-card">
+            <h3 style="margin-bottom:20px;font-size:1.1rem;">Recent Orders</h3>
+            <div id="recentOrdersTable"><div class="spinner"></div></div>
+          </div>
+        </div>
+
+        <!-- ── PLACE ORDER ──────────────────────────────── -->
+        <div id="ds-neworder" class="dash-section">
+          <h2 class="ds-title">Submit New Requirement</h2>
+          <div class="dash-card">
+
+            <!-- Tab switcher -->
+            <div class="tab-bar">
+              <button class="tab-btn active" onclick="switchUploadTab('upload')"><i data-lucide="upload"></i> Upload File</button>
+              <button class="tab-btn"        onclick="switchUploadTab('type')"><i data-lucide="type"></i> Type List</button>
+            </div>
+
+            <!-- Upload tab -->
+            <div id="tab-upload" class="tab-panel active">
+              <div id="uploadZone" class="upload-zone"
+                   ondragover="handleDragOver(event)"
+                   ondragleave="handleDragLeave()"
+                   ondrop="handleDrop(event)"
+                   onclick="document.getElementById('fileInput').click()">
+                <i data-lucide="cloud-upload" style="width:48px;height:48px;color:var(--gray-400);margin-bottom:12px;"></i>
+                <p style="font-weight:600;color:var(--gray-700);">Drag &amp; drop your file here</p>
+                <p style="font-size:0.875rem;color:var(--gray-500);">Supports PDF, JPG, PNG, TXT · Max 5 MB</p>
+                <input type="file" id="fileInput" class="hidden" accept="image/*,.pdf,.txt" onchange="handleFileSelect(event)" />
+              </div>
+              <div id="filePreview" class="hidden" style="display:flex;align-items:center;gap:12px;padding:12px 16px;background:var(--green-50);border:1px solid var(--green-200);border-radius:var(--radius);margin-top:12px;">
+                <i data-lucide="file-check" style="color:var(--green-700);flex-shrink:0;"></i>
+                <span id="fileName" style="font-size:0.9rem;font-weight:600;color:var(--green-800);flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;"></span>
+                <button onclick="removeFile()" style="background:none;border:none;cursor:pointer;color:var(--red);"><i data-lucide="x"></i></button>
+              </div>
+            </div>
+
+            <!-- Type tab -->
+            <div id="tab-type" class="tab-panel">
+              <div class="form-group">
+                <label class="form-label">Type your grocery list</label>
+                <textarea id="textListInput" class="form-control" rows="6" placeholder="e.g. 10kg Basmati Rice, 5L Sunflower Oil, 2kg Dal Chana..."></textarea>
+              </div>
+            </div>
+
+            <!-- Common delivery fields -->
+            <div style="margin-top:24px;border-top:1px solid var(--gray-100);padding-top:24px;">
+              <div class="form-group">
+                <label class="form-label"><i data-lucide="map-pin" style="width:14px;height:14px;"></i> Delivery Address</label>
+                <input type="text" id="deliveryAddress" class="form-control" placeholder="Full address including landmark" />
+              </div>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;">
+                <div class="form-group">
+                  <label class="form-label"><i data-lucide="calendar" style="width:14px;height:14px;"></i> Delivery Date</label>
+                  <input type="date" id="deliveryDate" class="form-control" />
+                </div>
+                <div class="form-group">
+                  <label class="form-label"><i data-lucide="clock" style="width:14px;height:14px;"></i> Time Slot</label>
+                  <select id="timeSlot" class="form-control">
+                    <option value="">Select a slot...</option>
+                    <option value="9am-12pm">Morning  (9:00 AM – 12:00 PM)</option>
+                    <option value="12pm-3pm">Afternoon (12:00 PM – 3:00 PM)</option>
+                    <option value="3pm-6pm">Evening  (3:00 PM – 6:00 PM)</option>
+                    <option value="6pm-9pm">Night    (6:00 PM – 9:00 PM)</option>
+                  </select>
+                </div>
+              </div>
+              <button class="btn btn-green btn-block" id="submitOrderBtn" onclick="submitOrder()" style="margin-top:8px;">
+                <i data-lucide="send"></i> Submit Order Request
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- ── MY ORDERS ────────────────────────────────── -->
+        <div id="ds-myorders" class="dash-section">
+          <h2 class="ds-title">My Orders</h2>
+          <!-- Filter chips -->
+          <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px;">
+            <button class="btn btn-sm btn-green"    onclick="filterMyOrders('All')">All</button>
+            <button class="btn btn-sm btn-outline"  onclick="filterMyOrders('Pending')">Pending</button>
+            <button class="btn btn-sm btn-outline"  onclick="filterMyOrders('Accepted')">Accepted</button>
+            <button class="btn btn-sm btn-outline"  onclick="filterMyOrders('Out for Delivery')">Out for Delivery</button>
+            <button class="btn btn-sm btn-outline"  onclick="filterMyOrders('Delivered')">Delivered</button>
+          </div>
+          <div class="dash-card" style="padding:0;overflow:hidden;">
+            <div id="allUserOrdersTable"><div class="spinner" style="padding:40px;"></div></div>
+          </div>
+        </div>
+
+        <!-- ── PROFILE ──────────────────────────────────── -->
+        <div id="ds-profile" class="dash-section">
+          <h2 class="ds-title">My Profile</h2>
+          <div class="dash-card" style="max-width:600px;">
+            <h3 style="font-size:1.05rem;margin-bottom:20px;">Personal Details</h3>
+            <div class="form-group">
+              <label class="form-label">Full Name</label>
+              <input type="text" id="profileName" class="form-control" placeholder="Your Name" />
+            </div>
+            <div class="form-group">
+              <label class="form-label">Phone Number</label>
+              <input type="text" id="profilePhone" class="form-control" placeholder="+91 XXXXX XXXXX" />
+            </div>
+            <div class="form-group">
+              <label class="form-label">Email Address</label>
+              <input type="email" id="profileEmail" class="form-control" disabled style="opacity:0.6;" />
+            </div>
+            <div class="form-group">
+              <label class="form-label">Default Delivery Address</label>
+              <input type="text" id="profileAddress" class="form-control" placeholder="Your default address" />
+            </div>
+            <button class="btn btn-green" onclick="saveProfile()"><i data-lucide="save"></i> Save Changes</button>
+          </div>
+
+          <div class="dash-card" style="max-width:600px;margin-top:24px;">
+            <h3 style="font-size:1.05rem;margin-bottom:20px;">Change Password</h3>
+            <div class="form-group">
+              <label class="form-label">Current Password</label>
+              <input type="password" id="currentPassword" class="form-control" placeholder="••••••••" />
+            </div>
+            <div class="form-group">
+              <label class="form-label">New Password</label>
+              <input type="password" id="newPassword" class="form-control" placeholder="Min 6 characters" />
+            </div>
+            <button class="btn btn-outline" onclick="changePassword()"><i data-lucide="lock"></i> Update Password</button>
+          </div>
+        </div>
+
+      </main>
+    </div>
+  </div>
+
+  <!-- ── ORDER DETAIL MODAL ──────────────────────────────── -->
+  <div id="orderModal" class="modal-overlay">
+    <div class="modal-box">
+      <div class="modal-hd">
+        <h3>Order Details</h3>
+        <button onclick="closeModal()" class="modal-close"><i data-lucide="x"></i></button>
+      </div>
+      <div id="modalBody" class="modal-body"></div>
+      <div id="modalFooter" class="modal-footer"></div>
+    </div>
+  </div>
+
+  <!-- WhatsApp FAB -->
+  <a href="https://wa.me/919876543210" target="_blank" class="fab-whatsapp" aria-label="WhatsApp Support">
+    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="white">
+      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 0 0-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z" />
+    </svg>
+  </a>
+
+  <!-- Toast -->
+  <div id="toast"></div>
+
+  <!-- App Logic -->
+  <script src="app.js"></script>
+</body>
+</html>

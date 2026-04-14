@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Panel – Gopal Trading Company</title>
+
+  <!-- Google Fonts: Montserrat -->
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <!-- External CSS -->
+  <link rel="stylesheet" href="styles.css" />
+
+  <style>
+    body { background: var(--gray-50); margin: 0; padding: 0; }
+    .admin-layout { display: flex; height: 100vh; overflow: hidden; }
+    
+    /* Sidebar */
+    .admin-sidebar { 
+      width: 280px; background: var(--green-900); color: var(--white);
+      display: flex; flex-direction: column; transition: 0.3s;
+      flex-shrink: 0;
+    }
+    .admin-brand {
+      padding: 24px; border-bottom: 1px solid rgba(255,255,255,0.1);
+      font-size: 1.5rem; font-weight: 800; display: flex; align-items: center; gap: 12px;
+    }
+    .admin-nav { flex: 1; padding: 24px 16px; list-style: none; overflow-y: auto; }
+    .admin-nav li { margin-bottom: 8px; }
+    .admin-nav a {
+      display: flex; align-items: center; gap: 12px; padding: 12px 16px;
+      border-radius: var(--radius); color: rgba(255,255,255,0.8);
+      font-weight: 500; transition: 0.2s;
+    }
+    .admin-nav a:hover, .admin-nav a.active {
+      background: rgba(255,255,255,0.1); color: var(--gold);
+    }
+    .admin-logout { padding: 24px; border-top: 1px solid rgba(255,255,255,0.1); }
+    
+    /* Main Content */
+    .admin-main { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
+    .admin-header {
+      background: var(--white); height: 72px; padding: 0 32px;
+      display: flex; align-items: center; justify-content: space-between;
+      border-bottom: 1px solid var(--gray-200); flex-shrink: 0;
+    }
+    .admin-content { flex: 1; overflow-y: auto; padding: 32px; }
+    
+    /* Dashboard Cards */
+    .kpi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 24px; margin-bottom: 32px; }
+    .kpi-card {
+      background: var(--white); border-radius: var(--radius-lg); padding: 24px;
+      box-shadow: var(--shadow-sm); border: 1px solid var(--gray-100);
+      display: flex; align-items: center; gap: 20px;
+    }
+    .kpi-icon {
+      width: 60px; height: 60px; border-radius: 16px; background: var(--green-50);
+      color: var(--green-700); display: flex; align-items: center; justify-content: center;
+    }
+    .kpi-info h4 { color: var(--gray-500); font-size: 0.9rem; font-weight: 600; text-transform: uppercase; margin-bottom: 4px; }
+    .kpi-info .num { font-size: 1.8rem; font-weight: 800; color: var(--gray-900); }
+    
+    /* Charts */
+    .charts-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 24px; margin-bottom: 32px; }
+    .chart-card { background: var(--white); border-radius: var(--radius-lg); padding: 24px; box-shadow: var(--shadow-sm); border: 1px solid var(--gray-100); }
+    .chart-card h3 { margin-bottom: 24px; font-size: 1.1rem; }
+    
+    /* Tables */
+    .table-card { background: var(--white); border-radius: var(--radius-lg); box-shadow: var(--shadow-sm); border: 1px solid var(--gray-100); overflow: hidden; }
+    .table-header { padding: 20px 24px; border-bottom: 1px solid var(--gray-200); display: flex; justify-content: space-between; align-items: center; }
+    table { width: 100%; border-collapse: collapse; text-align: left; }
+    th { padding: 16px 24px; background: var(--gray-50); color: var(--gray-600); font-size: 0.85rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; border-bottom: 1px solid var(--gray-200); }
+    td { padding: 16px 24px; border-bottom: 1px solid var(--gray-100); color: var(--gray-800); font-size: 0.95rem; vertical-align: middle; }
+    tr:last-child td { border-bottom: none; }
+    tr:hover td { background: var(--gray-50); }
+    
+    .badge { padding: 6px 12px; border-radius: var(--radius-full); font-size: 0.85rem; font-weight: 600; display: inline-flex; align-items: center; gap: 6px; }
+    .badge-pending { background: #fef3c7; color: #b45309; }
+    .badge-accepted { background: #dbeafe; color: #1e40af; }
+    .badge-delivery { background: #e0e7ff; color: #4338ca; }
+    .badge-completed { background: #d1fae5; color: #047857; }
+    
+    /* Features Grid */
+    .features-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 24px; }
+    .feature-card {
+      background: var(--white); border-radius: var(--radius-lg); padding: 24px;
+      box-shadow: var(--shadow-sm); border: 1px solid var(--gray-200);
+      display: flex; flex-direction: column;
+    }
+    .feature-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 16px; }
+    .feature-icon-title { display: flex; align-items: center; gap: 12px; }
+    .feature-icon-title i { color: var(--green-600); }
+    .feature-icon-title h4 { font-size: 1.05rem; }
+    .feature-card p { color: var(--gray-600); font-size: 0.9rem; margin-bottom: 24px; flex: 1; }
+    
+    /* Toggle Switch */
+    .switch { position: relative; display: inline-block; width: 44px; height: 24px; }
+    .switch input { opacity: 0; width: 0; height: 0; }
+    .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: var(--gray-300); transition: .4s; border-radius: 34px; }
+    .slider:before { position: absolute; content: ""; height: 18px; width: 18px; left: 3px; bottom: 3px; background-color: white; transition: .4s; border-radius: 50%; }
+    input:checked + .slider { background-color: var(--green-500); }
+    input:checked + .slider:before { transform: translateX(20px); }
+  </style>
+</head>
+<body>
+
+  <div class="admin-layout">
+    
+    <!-- Sidebar -->
+    <aside class="admin-sidebar">
+      <div class="admin-brand">
+        <i data-lucide="shield-check"></i> Admin Panel
+      </div>
+      <ul class="admin-nav">
+        <li><a href="#" class="active" onclick="switchTab('dashboard')"><i data-lucide="layout-dashboard"></i> Dashboard</a></li>
+        <li><a href="#" onclick="switchTab('orders')"><i data-lucide="shopping-cart"></i> Orders</a></li>
+        <li><a href="#" onclick="switchTab('features')"><i data-lucide="settings"></i> Features</a></li>
+        <li><a href="#" onclick="switchTab('users')"><i data-lucide="users"></i> Users</a></li>
+        <li><a href="#" onclick="switchTab('contacts')"><i data-lucide="mail"></i> Inquiries</a></li>
+        <li><a href="/" target="_blank"><i data-lucide="external-link"></i> View Website</a></li>
+      </ul>
+      <div class="admin-logout">
+        <a href="#" onclick="adminLogout()" style="display:flex;align-items:center;gap:12px;color:var(--red-light);cursor:pointer;">
+          <i data-lucide="log-out"></i> Logout
+        </a>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="admin-main">
+      <header class="admin-header">
+        <h2 id="pageTitle" style="font-size:1.25rem;">Overview</h2>
+        <div style="display:flex;align-items:center;gap:16px;">
+          <div style="text-align:right;">
+            <div id="adminUserName" style="font-weight:700;font-size:0.9rem;">Admin</div>
+            <div style="font-size:0.8rem;color:var(--gray-500);">Superadmin</div>
+          </div>
+          <div style="width:40px;height:40px;border-radius:50%;background:var(--green-100);color:var(--green-800);display:flex;align-items:center;justify-content:center;font-weight:bold;">A</div>
+        </div>
+      </header>
+      
+      <div class="admin-content">
+        
+        <!-- DASHBOARD TAB -->
+        <div id="tab-dashboard" class="admin-tab">
+          <div class="kpi-grid">
+            <div class="kpi-card">
+              <div class="kpi-icon"><i data-lucide="shopping-bag" style="width:32px;height:32px;"></i></div>
+              <div class="kpi-info">
+                <h4>Total Orders</h4>
+                <div class="num" id="kpiOrders">–</div>
+              </div>
+            </div>
+            <div class="kpi-card">
+              <div class="kpi-icon" style="background:#fef3c7;color:#b45309;"><i data-lucide="clock" style="width:32px;height:32px;"></i></div>
+              <div class="kpi-info">
+                <h4>Pending</h4>
+                <div class="num" id="kpiPending">–</div>
+              </div>
+            </div>
+            <div class="kpi-card">
+              <div class="kpi-icon" style="background:#d1fae5;color:#047857;"><i data-lucide="indian-rupee" style="width:32px;height:32px;"></i></div>
+              <div class="kpi-info">
+                <h4>Revenue (Mtd)</h4>
+                <div class="num" id="kpiRevenue">–</div>
+              </div>
+            </div>
+            <div class="kpi-card">
+              <div class="kpi-icon" style="background:#e0e7ff;color:#4338ca;"><i data-lucide="users" style="width:32px;height:32px;"></i></div>
+              <div class="kpi-info">
+                <h4>Total Clients</h4>
+                <div class="num" id="kpiClients">–</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="charts-grid">
+            <div class="chart-card">
+              <h3>Orders Overview</h3>
+              <canvas id="lineChart" height="100"></canvas>
+            </div>
+            <div class="chart-card">
+              <h3>Order Status</h3>
+              <div style="position:relative;height:240px;display:flex;justify-content:center;">
+                <canvas id="doughnutChart"></canvas>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ORDERS TAB -->
+        <div id="tab-orders" class="admin-tab hidden">
+          <div class="table-card">
+            <div class="table-header">
+              <h3 style="font-size:1.1rem;margin:0;">Recent Orders</h3>
+              <div style="display:flex;gap:12px;align-items:center;">
+                <input type="text" id="orderSearchInput" placeholder="Search orders..." class="form-control" style="width:220px;padding:8px 12px;" onkeyup="loadAdminOrders()" />
+                <select id="statusFilterSelect" class="form-control" style="width:160px;padding:8px 12px;" onchange="loadAdminOrders()">
+                  <option value="All">All Statuses</option>
+                  <option>Pending</option>
+                  <option>Accepted</option>
+                  <option>Out for Delivery</option>
+                  <option>Delivered</option>
+                  <option>Rejected</option>
+                </select>
+              </div>
+            </div>
+            <table>
+              <thead>
+                <tr>
+                  <th>Order ID</th>
+                  <th>Customer Name</th>
+                  <th>Date &amp; Time</th>
+                  <th>Type</th>
+                  <th>Status</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="adminOrdersTableBody">
+                <tr><td colspan="6" style="padding:40px;text-align:center;color:#94a3b8;">Loading orders...</td></tr>
+              </tbody>
+            </table>
+          </div>    </div>
+        </div>
+
+        <!-- FEATURES TAB -->
+        <div id="tab-features" class="admin-tab hidden">
+          <div style="margin-bottom:24px;">
+            <p class="text-gray">Toggle website features on or off in real-time. Changes apply instantly to the frontend.</p>
+          </div>
+          
+          <div class="features-grid">
+            <!-- Feature 1 -->
+            <div class="feature-card">
+              <div class="feature-header">
+                <div class="feature-icon-title">
+                  <i data-lucide="message-circle"></i>
+                  <h4>WhatsApp Integration</h4>
+                </div>
+                <label class="switch">
+                  <input type="checkbox" checked onchange="toggleFeature('whatsapp', this.checked)">
+                  <span class="slider"></span>
+                </label>
+              </div>
+              <p>Shows the floating WhatsApp support button on the customer frontend.</p>
+              <div style="font-size:0.8rem;color:var(--gray-400);">Last updated: Today, 10:42 AM</div>
+            </div>
+            
+            <!-- Feature 2 -->
+            <div class="feature-card">
+              <div class="feature-header">
+                <div class="feature-icon-title">
+                  <i data-lucide="shopping-basket"></i>
+                  <h4>Online Orders</h4>
+                </div>
+                <label class="switch">
+                  <input type="checkbox" checked onchange="toggleFeature('orders', this.checked)">
+                  <span class="slider"></span>
+                </label>
+              </div>
+              <p>Allow customers to submit new bulk orders via the dashboard.</p>
+              <div style="font-size:0.8rem;color:var(--gray-400);">Last updated: Yesterday</div>
+            </div>
+            
+            <!-- Feature 3 -->
+            <div class="feature-card">
+              <div class="feature-header">
+                <div class="feature-icon-title">
+                  <i data-lucide="gift"></i>
+                  <h4>Festival Packs</h4>
+                </div>
+                <label class="switch">
+                  <input type="checkbox" onchange="toggleFeature('festivals', this.checked)">
+                  <span class="slider"></span>
+                </label>
+              </div>
+              <p>Display special Diwali/Holi wholesale packaging offers.</p>
+              <div style="font-size:0.8rem;color:var(--gray-400);">Last updated: 2 months ago</div>
+            </div>
+            
+            <!-- Feature 4 -->
+            <div class="feature-card">
+              <div class="feature-header">
+                <div class="feature-icon-title">
+                  <i data-lucide="mail"></i>
+                  <h4>Email Notifications</h4>
+                </div>
+                <label class="switch">
+                  <input type="checkbox" checked onchange="toggleFeature('email', this.checked)">
+                  <span class="slider"></span>
+                </label>
+              </div>
+              <p>Send automated email receipts and status updates to customers.</p>
+              <div style="font-size:0.8rem;color:var(--gray-400);">Last updated: Today, 09:00 AM</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- USERS TAB -->
+        <div id="tab-users" class="admin-tab hidden">
+          <div class="table-card">
+            <div class="table-header">
+              <h3 style="font-size:1.1rem;margin:0;">Registered Customers</h3>
+              <input type="text" id="userSearchInput" placeholder="Search users..." class="form-control" style="width:220px;padding:8px 12px;" onkeyup="loadAdminUsers()" />
+            </div>
+            <table>
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Email</th>
+                  <th>Phone No.</th>
+                  <th>Joined Date</th>
+                  <th>Status / Action</th>
+                </tr>
+              </thead>
+              <tbody id="adminUsersTableBody">
+                <tr><td colspan="5" style="padding:40px;text-align:center;color:#94a3b8;">Loading users...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- CONTACTS TAB -->
+        <div id="tab-contacts" class="admin-tab hidden">
+          <div class="table-card">
+            <div class="table-header">
+              <h3 style="font-size:1.1rem;margin:0;">Customer Inquiries</h3>
+            </div>
+            <table>
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Contact Info</th>
+                  <th>Message</th>
+                  <th>Date</th>
+                </tr>
+              </thead>
+              <tbody id="adminContactsTableBody">
+                <tr><td colspan="4" style="padding:40px;text-align:center;color:#94a3b8;">Loading inquiries...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+    </main>
+  </div>
+
+  <script>
+    const API_BASE = '/api';
+    let lineChart = null;
+    let doughnutChart = null;
+
+    // ─── API HELPERS ─────────────────────────────────────────
+    function getToken() { return localStorage.getItem('gtc_token'); }
+
+    async function apiGet(path) {
+      const res = await fetch(`${API_BASE}${path}`, {
+        headers: { 'Authorization': `Bearer ${getToken()}` }
+      });
+      return res.json();
+    }
+
+    async function apiPut(path, body) {
+      const res = await fetch(`${API_BASE}${path}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${getToken()}` },
+        body: JSON.stringify(body)
+      });
+      return res.json();
+    }
+
+    function showToast(msg, type = 'default') {
+      const t = document.getElementById('adminToast') || (() => {
+        const el = document.createElement('div');
+        el.id = 'adminToast';
+        el.style.cssText = 'position:fixed;bottom:32px;left:50%;transform:translateX(-50%) translateY(100px);background:#1e293b;color:white;padding:14px 24px;border-radius:9999px;font-weight:500;font-size:0.95rem;box-shadow:0 20px 25px -5px rgba(0,0,0,0.1);opacity:0;transition:0.4s;z-index:9999;';
+        document.body.appendChild(el);
+        return el;
+      })();
+      t.textContent = msg;
+      if (type === 'success') t.style.background = '#047857';
+      else if (type === 'error') t.style.background = '#dc2626';
+      else t.style.background = '#1e293b';
+      t.style.opacity = '1';
+      t.style.transform = 'translateX(-50%) translateY(0)';
+      clearTimeout(window._adminToast);
+      window._adminToast = setTimeout(() => {
+        t.style.opacity = '0';
+        t.style.transform = 'translateX(-50%) translateY(100px)';
+      }, 4000);
+    }
+
+    // Initialize Lucide Icons
+    lucide.createIcons();
+
+    // Setup tabs
+    function switchTab(tabId) {
+      document.querySelectorAll('.admin-tab').forEach(el => el.classList.add('hidden'));
+      document.querySelectorAll('.admin-nav a').forEach(el => el.classList.remove('active'));
+      document.getElementById('tab-' + tabId).classList.remove('hidden');
+      event.currentTarget.classList.add('active');
+      const titles = {
+        'dashboard': 'Overview',
+        'orders': 'Manage Orders',
+        'features': 'Feature Management',
+        'users': 'Customer Database',
+        'contacts': 'Customer Inquiries'
+      };
+      document.getElementById('pageTitle').textContent = titles[tabId];
+      if (tabId === 'orders') loadAdminOrders();
+      if (tabId === 'users')  loadAdminUsers();
+      if (tabId === 'contacts') loadAdminContacts();
+    }
+
+    // ─── DASHBOARD ───────────────────────────────────────────
+    async function loadDashboard() {
+      try {
+        const data = await apiGet('/admin/dashboard');
+        if (!data.success) return showToast('Failed to load dashboard.', 'error');
+        const s = data.stats;
+
+        document.getElementById('kpiOrders').textContent    = s.totalOrders;
+        document.getElementById('kpiPending').textContent   = s.pendingOrders;
+        document.getElementById('kpiRevenue').textContent   = '–';  // not tracked yet
+        document.getElementById('kpiClients').textContent   = s.totalUsers;
+
+        // Bar chart (daily orders)
+        const dailyLabels = (s.dailyOrders || []).map(d => d._id.slice(5));
+        const dailyCounts = (s.dailyOrders || []).map(d => d.count);
+
+        if (lineChart) lineChart.destroy();
+        const ctxLine = document.getElementById('lineChart').getContext('2d');
+        lineChart = new Chart(ctxLine, {
+          type: 'line',
+          data: {
+            labels: dailyLabels.length ? dailyLabels : ['No data'],
+            datasets: [{
+              label: 'Orders',
+              data: dailyCounts.length ? dailyCounts : [0],
+              borderColor: '#059669',
+              backgroundColor: 'rgba(5,150,105,0.1)',
+              borderWidth: 2, fill: true, tension: 0.4
+            }]
+          },
+          options: { responsive: true, plugins: { legend: { display: false } } }
+        });
+
+        // Doughnut chart (status breakdown)
+        const statusMap = {};
+        (s.statusBreakdown || []).forEach(item => { statusMap[item._id] = item.count; });
+        const dLabels = ['Pending','Accepted','Out for Delivery','Delivered','Rejected'];
+        const dData   = dLabels.map(l => statusMap[l] || 0);
+        const dColors = ['#f59e0b','#3b82f6','#8b5cf6','#10b981','#ef4444'];
+
+        if (doughnutChart) doughnutChart.destroy();
+        const ctxD = document.getElementById('doughnutChart').getContext('2d');
+        doughnutChart = new Chart(ctxD, {
+          type: 'doughnut',
+          data: {
+            labels: dLabels,
+            datasets: [{ data: dData, backgroundColor: dColors, borderWidth: 0 }]
+          },
+          options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom', labels: { font: { size: 11 } } } } }
+        });
+      } catch(e) {
+        showToast('Error loading dashboard.', 'error');
+      }
+    }
+
+    // ─── ORDERS ──────────────────────────────────────────────
+    async function loadAdminOrders() {
+      const search = document.getElementById('orderSearchInput')?.value || '';
+      const status = document.getElementById('statusFilterSelect')?.value || 'All';
+      const tbody  = document.getElementById('adminOrdersTableBody');
+      tbody.innerHTML = `<tr><td colspan="6" style="padding:40px;text-align:center;color:#94a3b8;">Loading...</td></tr>`;
+
+      try {
+        const data = await apiGet(`/orders?status=${status}&search=${encodeURIComponent(search)}`);
+        if (!data.success || !data.orders.length) {
+          tbody.innerHTML = `<tr><td colspan="6" style="padding:40px;text-align:center;color:#94a3b8;">No orders found.</td></tr>`;
+          return;
+        }
+        const statusBadge = (s) => {
+          const cls = { 'Pending':'#f59e0b','Accepted':'#3b82f6','Out for Delivery':'#8b5cf6','Delivered':'#10b981','Rejected':'#ef4444' };
+          return `<span style="background:${cls[s]||'#94a3b8'}22;color:${cls[s]||'#333'};padding:4px 10px;border-radius:999px;font-size:0.8rem;font-weight:700;">${s}</span>`;
+        };
+        tbody.innerHTML = data.orders.map(o => `
+          <tr>
+            <td><strong>GT-${o._id.slice(-5)}</strong></td>
+            <td>${o.userId?.name || '–'}</td>
+            <td>${new Date(o.createdAt).toLocaleString('en-IN',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'})}</td>
+            <td>${o.fileUrl ? 'File Upload' : 'Text Entry'}</td>
+            <td>${statusBadge(o.status)}</td>
+            <td>
+              <select style="border:1px solid #e2e8f0;border-radius:8px;padding:4px 8px;font-size:0.85rem;margin-right:6px;" id="status-${o._id}">
+                ${['Pending','Accepted','Out for Delivery','Delivered','Rejected'].map(s => `<option ${s===o.status?'selected':''}>${s}</option>`).join('')}
+              </select>
+              <button onclick="updateStatus('${o._id}')" style="background:#047857;color:white;border:none;border-radius:8px;padding:4px 10px;font-size:0.8rem;cursor:pointer;">Update</button>
+            </td>
+          </tr>
+        `).join('');
+        lucide.createIcons();
+      } catch(e) {
+        tbody.innerHTML = `<tr><td colspan="6" style="padding:40px;text-align:center;color:#ef4444;">Failed to load orders.</td></tr>`;
+      }
+    }
+
+    async function updateStatus(orderId) {
+      const status = document.getElementById(`status-${orderId}`).value;
+      try {
+        const data = await apiPut(`/orders/${orderId}`, { status });
+        if (data.success) {
+          showToast(`Status updated to "${status}"`, 'success');
+          loadAdminOrders();
+        } else {
+          showToast(data.message, 'error');
+        }
+      } catch(e) {
+        showToast('Update failed.', 'error');
+      }
+    }
+
+    // ─── USERS ───────────────────────────────────────────────
+    async function loadAdminUsers() {
+      const search = document.getElementById('userSearchInput')?.value || '';
+      const tbody  = document.getElementById('adminUsersTableBody');
+      tbody.innerHTML = `<tr><td colspan="5" style="padding:40px;text-align:center;color:#94a3b8;">Loading...</td></tr>`;
+      try {
+        const data = await apiGet(`/admin/users?search=${encodeURIComponent(search)}`);
+        if (!data.success || !data.users.length) {
+          tbody.innerHTML = `<tr><td colspan="5" style="padding:40px;text-align:center;color:#94a3b8;">No users found.</td></tr>`;
+          return;
+        }
+        tbody.innerHTML = data.users.map(u => `
+          <tr>
+            <td><strong>${u.name}</strong></td>
+            <td>${u.email}</td>
+            <td>${u.phone}</td>
+            <td>${new Date(u.createdAt).toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'})}</td>
+            <td>
+              <span style="background:${u.isActive?'#d1fae5':'#fee2e2'};color:${u.isActive?'#047857':'#dc2626'};padding:4px 10px;border-radius:999px;font-size:0.8rem;font-weight:700;">${u.isActive ? 'Active' : 'Inactive'}</span>
+              <button onclick="toggleUser('${u._id}','${u.name}')" style="margin-left:8px;background:${u.isActive?'#fee2e2':'#d1fae5'};color:${u.isActive?'#dc2626':'#047857'};border:none;border-radius:8px;padding:4px 10px;font-size:0.8rem;cursor:pointer;">${u.isActive ? 'Deactivate' : 'Activate'}</button>
+            </td>
+          </tr>
+        `).join('');
+      } catch(e) {
+        tbody.innerHTML = `<tr><td colspan="5" style="padding:40px;text-align:center;color:#ef4444;">Failed to load users.</td></tr>`;
+      }
+    }
+
+    async function toggleUser(userId, name) {
+      try {
+        const data = await apiPut(`/admin/users/${userId}/toggle`, {});
+        showToast(data.message, 'success');
+        loadAdminUsers();
+      } catch(e) {
+        showToast('Failed to update user.', 'error');
+      }
+    }
+
+    // ─── CONTACTS ──────────────────────────────────────────────
+    async function loadAdminContacts() {
+      const tbody  = document.getElementById('adminContactsTableBody');
+      tbody.innerHTML = `<tr><td colspan="4" style="padding:40px;text-align:center;color:#94a3b8;">Loading inquiries...</td></tr>`;
+      try {
+        const data = await apiGet('/admin/contacts');
+        if (!data.success || !data.contacts.length) {
+          tbody.innerHTML = `<tr><td colspan="4" style="padding:40px;text-align:center;color:#94a3b8;">No inquiries found.</td></tr>`;
+          return;
+        }
+        tbody.innerHTML = data.contacts.map(c => `
+          <tr>
+            <td><strong>${c.name}</strong></td>
+            <td>${c.phoneOrEmail}</td>
+            <td style="max-width:300px;line-height:1.4;">${c.message}</td>
+            <td>${new Date(c.createdAt).toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'})}</td>
+          </tr>
+        `).join('');
+      } catch(e) {
+        tbody.innerHTML = `<tr><td colspan="4" style="padding:40px;text-align:center;color:#ef4444;">Failed to load inquiries.</td></tr>`;
+      }
+    }
+
+    // ─── FEATURE TOGGLES ─────────────────────────────────────
+    function toggleFeature(featureId, isEnabled) {
+      const features = JSON.parse(localStorage.getItem('gtc_features') || '{}');
+      features[featureId] = isEnabled;
+      localStorage.setItem('gtc_features', JSON.stringify(features));
+      showToast(`Feature "${featureId}" turned ${isEnabled ? 'ON' : 'OFF'}`, 'success');
+    }
+
+    function loadFeatureStates() {
+      const features = JSON.parse(localStorage.getItem('gtc_features') || '{}');
+      Object.keys(features).forEach(key => {
+        const toggle = document.querySelector(`input[onchange*="'${key}'"]`);
+        if (toggle) toggle.checked = features[key];
+      });
+    }
+
+    // ─── ADMIN LOGOUT ────────────────────────────────────────
+    function adminLogout() {
+      localStorage.removeItem('gtc_token');
+      localStorage.removeItem('gtc_user');
+      window.location.href = '/';
+    }
+
+    // ─── INIT ────────────────────────────────────────────────
+    document.addEventListener('DOMContentLoaded', () => {
+      // Auth Guard
+      const user = JSON.parse(localStorage.getItem('gtc_user') || 'null');
+      if (!user || user.role !== 'admin') {
+        alert('Unauthorized! Redirecting to login.');
+        window.location.href = '/';
+        return;
+      }
+
+      // Show admin name in header
+      const nameEl = document.getElementById('adminUserName');
+      if (nameEl) nameEl.textContent = user.name || 'Admin';
+
+      loadDashboard();
+      loadFeatureStates();
+    });
+  </script>
+</body>
+</html>
+

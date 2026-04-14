@@ -1,0 +1,14 @@
+{
+  "name": "gopal-trading-company",
+  "version": "1.0.0",
+  "description": "Gopal Trading Company — Full stack grocery trading platform",
+  "scripts": {
+    "server": "cd \"back end\" && npm run dev",
+    "client": "cd \"front end\" && node serve.js",
+    "start": "cd \"back end\" && npm start"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "private": true
+}
